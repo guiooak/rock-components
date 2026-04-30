@@ -1,8 +1,8 @@
-# Study Components — Foundation Plan
+# Stud Components — Foundation Plan
 
 ## Context
 
-We're building a React component library and design system called **Study Components** from scratch. The repository currently contains only a `.gitignore` and `LICENSE` (MIT). The goal is to set up all foundational infrastructure — tooling, tokens, themes, testing, Storybook — so that components can be built on a solid, consistent base. No UI components will be created in this phase (except a template/example).
+We're building a React component library and design system called **Stud Components** from scratch. The repository currently contains only a `.gitignore` and `LICENSE` (MIT). The goal is to set up all foundational infrastructure — tooling, tokens, themes, testing, Storybook — so that components can be built on a solid, consistent base. No UI components will be created in this phase (except a template/example).
 
 ## Decisions
 
@@ -55,7 +55,7 @@ We're building a React component library and design system called **Study Compon
 ### Step 5: Project structure
 
 ```
-study-components/
+stud-components/
   .storybook/
     main.ts
     preview.ts
@@ -85,8 +85,8 @@ study-components/
       reset.css               # CSS reset/normalize
       global.css              # Global base styles
     provider/
-      StudyProvider.tsx
-      StudyProvider.test.tsx
+      StudProvider.tsx
+      StudProvider.test.tsx
       index.ts
     types/
       css.d.ts                # CSS Modules type declarations
@@ -116,49 +116,49 @@ Tokens defined as CSS custom properties in plain `.css` files under `src/tokens/
 - **z-index.css**: Layering scale (dropdown, sticky, modal, popover, tooltip)
 - **index.css**: Aggregates all token files via `@import`
 
-All tokens namespaced with `--study-` prefix (e.g., `--study-color-primary-600`).
+All tokens namespaced with `--stud-` prefix (e.g., `--stud-color-primary-600`).
 
 A TypeScript barrel (`tokens/index.ts`) will also export:
 - Token values as JS constants for programmatic use
-- A `StudyTokens` type representing all overridable tokens (used by `StudyProvider`'s `tokens` prop)
-- A `tokenToCSSVar` map connecting camelCase token names to their `--study-*` CSS variable names
+- A `StudTokens` type representing all overridable tokens (used by `StudProvider`'s `tokens` prop)
+- A `tokenToCSSVar` map connecting camelCase token names to their `--stud-*` CSS variable names
 
-**Token override architecture**: Defaults are set in CSS files (`:root` and `[data-theme]`). Overrides are applied via inline `style` on the `StudyProvider` wrapper div. Since inline CSS custom properties cascade into children, any component using `var(--study-*)` automatically picks up the override. This is zero-config for consumers — just pass the values you want to change.
+**Token override architecture**: Defaults are set in CSS files (`:root` and `[data-theme]`). Overrides are applied via inline `style` on the `StudProvider` wrapper div. Since inline CSS custom properties cascade into children, any component using `var(--stud-*)` automatically picks up the override. This is zero-config for consumers — just pass the values you want to change.
 
 ### Step 7: Themes
 
-- **`themes/light.css`**: Sets semantic token values on `:root` (e.g., `--study-color-bg`, `--study-color-fg`, `--study-color-primary`)
+- **`themes/light.css`**: Sets semantic token values on `:root` (e.g., `--stud-color-bg`, `--stud-color-fg`, `--stud-color-primary`)
 - **`themes/dark.css`**: Overrides semantic tokens on `[data-theme="dark"]`
-- Components reference only semantic tokens (`--study-color-bg`) not raw palette tokens (`--study-color-neutral-0`), so theme switching "just works"
+- Components reference only semantic tokens (`--stud-color-bg`) not raw palette tokens (`--stud-color-neutral-0`), so theme switching "just works"
 
 ### Step 8: CSS reset & global styles
 
 - **`styles/reset.css`**: Modern CSS reset (box-sizing, margin reset, img display, etc.)
 - **`styles/global.css`**: Applies font-family, base font-size, color, and background from tokens
 
-### Step 9: StudyProvider (with token overrides)
+### Step 9: StudProvider (with token overrides)
 
 - Wrapper component that applies theme, imports global CSS, and allows token overrides
 - Props:
   - `children: ReactNode`
   - `theme: 'light' | 'dark'` (default `'light'`)
-  - `tokens?: Partial<StudyTokens>` — consumer can override any token value
+  - `tokens?: Partial<StudTokens>` — consumer can override any token value
 - Applies `data-theme` attribute on a wrapping `<div>`
 - Token overrides are applied as inline CSS custom properties on the wrapper `<div>`, which cascade over the defaults defined in the theme CSS files
 - Example consumer usage:
   ```tsx
-  <StudyProvider theme="dark" tokens={{ colorPrimary: '#e63946', spacingUnit: '6px' }}>
+  <StudProvider theme="dark" tokens={{ colorPrimary: '#e63946', spacingUnit: '6px' }}>
     <App />
-  </StudyProvider>
+  </StudProvider>
   ```
-- A `StudyTokens` type is generated from the token definitions, mapping camelCase prop names to `--study-*` CSS custom property names
-- Also exposes a `useStudyTheme` context hook for components that need to read the current theme
-- A helper function `mapTokensToCSS(tokens)` converts the partial tokens object to a `CSSProperties` style object with the corresponding `--study-*` variables
+- A `StudTokens` type is generated from the token definitions, mapping camelCase prop names to `--stud-*` CSS custom property names
+- Also exposes a `useStudTheme` context hook for components that need to read the current theme
+- A helper function `mapTokensToCSS(tokens)` converts the partial tokens object to a `CSSProperties` style object with the corresponding `--stud-*` variables
 
 ### Step 10: Utility helpers
 
 - **`cn.ts`**: Simple className merge utility (concatenates and filters falsy values)
-- **`test-utils.tsx`**: Custom `render` wrapping components in `StudyProvider`
+- **`test-utils.tsx`**: Custom `render` wrapping components in `StudProvider`
 - **`test-setup.ts`**: Imports `@testing-library/jest-dom/vitest`
 - **`css.d.ts`**: Declares `*.module.css` modules for TypeScript
 
@@ -189,7 +189,7 @@ A TypeScript barrel (`tokens/index.ts`) will also export:
 
 - Init with `npx storybook@latest init --builder vite --type react`
 - `.storybook/main.ts`: Configure stories glob, addons (essentials, a11y, interactions), autodocs
-- `.storybook/preview.ts`: Theme switcher in toolbar (light/dark), decorators wrapping stories in `StudyProvider`
+- `.storybook/preview.ts`: Theme switcher in toolbar (light/dark), decorators wrapping stories in `StudProvider`
 
 ### Step 16: Component template
 
@@ -205,8 +205,8 @@ Create `src/components/_template/` as a reference for how every component should
 
 ```ts
 // Provider
-export { StudyProvider } from './provider';
-export type { StudyProviderProps, StudyTheme } from './provider';
+export { StudProvider } from './provider';
+export type { StudProviderProps, StudTheme } from './provider';
 
 // Themes (CSS imports)
 import './themes/index.css';
@@ -267,7 +267,7 @@ After implementation, verify everything works end-to-end:
 9. `src/themes/light.css` + `src/themes/dark.css` + `src/themes/index.css`
 10. `src/styles/reset.css` + `src/styles/global.css`
 11. `src/utils/cn.ts` + `src/utils/test-setup.ts` + `src/utils/test-utils.tsx`
-12. `src/provider/StudyProvider.tsx` + test + index
+12. `src/provider/StudProvider.tsx` + test + index
 13. `src/index.ts`
 14. `.storybook/main.ts` + `.storybook/preview.ts`
 15. `src/components/_template/*` (all template files)
