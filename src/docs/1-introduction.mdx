@@ -1,0 +1,59 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Introduction" />
+
+# Stud Components
+
+Stud Components is a React component library and design system. It is built on a small set of opinionated choices: TypeScript everywhere, CSS Modules with semantic design tokens, light + dark themes from day one, and accessibility as a default rather than an afterthought.
+
+## Install
+
+```bash
+yarn add stud-components react react-dom
+```
+
+## Quick start
+
+```tsx
+import 'stud-components/styles.css';
+import { StudProvider } from 'stud-components';
+
+export const App = () => (
+  <StudProvider theme="system">
+    <YourApp />
+  </StudProvider>
+);
+```
+
+`StudProvider` follows `prefers-color-scheme` by default. Pass `theme="light"` or `theme="dark"` for an explicit override, or read and set the theme imperatively with `useStudTheme()`.
+
+## Customizing tokens
+
+Tokens are CSS custom properties under the `--sd-*` namespace. Override them in your own stylesheet, loaded after `stud-components/styles.css`:
+
+```css
+:root {
+  --sd-color-primary: #e63946;
+  --sd-spacing-4: 1.25rem;
+}
+
+/* Scoped subtree override */
+.brand-section {
+  --sd-color-primary: #2a9d8f;
+}
+```
+
+For runtime mutation, the typed CSS variable names are exported as constants:
+
+```ts
+import { tokens } from 'stud-components/tokens';
+
+document.documentElement.style.setProperty(tokens.colorPrimary, '#e63946');
+```
+
+## What's next
+
+- **Engineering Guidelines** — the seven-point quality bar every component must meet.
+- **Design Principles** — token philosophy, semantic vs raw tokens, the theming model.
+- **Tokens** — full reference of `--sd-*` variables.
+- **Contributing** — how to add a new component using the `_template/` reference.

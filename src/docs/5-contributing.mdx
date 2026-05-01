@@ -1,0 +1,80 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Contributing" />
+
+# Contributing — How to add a new component
+
+Every component in Stud Components is a copy-and-adapt of the reference template at `src/components/_template/`. This page walks through that process.
+
+## 1. Copy the template
+
+```bash
+cp -r src/components/_template src/components/<your-component>
+```
+
+Rename `Template.tsx`, `Template.module.css`, `Template.test.tsx`, `Template.stories.tsx` to your component name. Update all internal references.
+
+## 2. Build the component
+
+The template demonstrates every Engineering Guideline:
+
+- **`forwardRef`** with typed ref target.
+- **Exported props interface** named `<Component>Props`.
+- **Public root class** declared as `:global(.sd-<component>)` in the CSS module so consumers can target it for overrides.
+- **BEM modifiers** as scoped classes from the module (`__header`, `--disabled`).
+- **Semantic tokens only** — no raw palette tokens, no hard-coded values.
+- **Logical CSS properties** for RTL readiness.
+- **`aria-*` and keyboard handling** as appropriate.
+
+## 3. Write tests
+
+Tests must cover, at minimum:
+
+- Rendering and children.
+- Each prop variant.
+- User interactions (click, keyboard) where applicable.
+- Ref forwarding.
+- One `vitest-axe` accessibility assertion per component.
+
+Use `import { render } from '@/utils/test-utils'` so tests are wrapped in `StudProvider`.
+
+## 4. Write stories
+
+Stories must cover the **default** rendering plus **every variant and state**: loading, disabled, error, empty, long content, RTL. The Storybook `addon-a11y` panel must be clean for each story.
+
+## 5. Wire up exports
+
+Add the component to `src/index.ts`:
+
+```ts
+export { Button } from './components/button';
+export type { ButtonProps } from './components/button';
+```
+
+Add the per-component subpath to `package.json#exports`:
+
+```json
+"./button": {
+  "types": "./dist/components/button/index.d.ts",
+  "import": "./dist/components/button/index.js",
+  "require": "./dist/components/button/index.cjs"
+}
+```
+
+Add the component as a Vite library entry in `vite.config.ts` so it gets its own chunk.
+
+## 6. Update bundle-size budgets
+
+Add a `size-limit` entry for the new subpath in `package.json`. Pick an honest budget — it's a ratchet, not a target.
+
+## 7. Add a changeset
+
+```bash
+yarn changeset
+```
+
+Describe the change in user-facing terms. Pick `patch` for fixes, `minor` for additions, `major` for breaking changes (which should be rare).
+
+## 8. Open a PR
+
+CI runs lint, typecheck, tests, package verification, and bundle-size checks. Branch protection on `main` requires all of them to pass.

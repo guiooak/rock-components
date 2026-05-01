@@ -1,0 +1,44 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Design Principles" />
+
+# Design Principles
+
+These principles describe how Stud Components is shaped at the design and architecture level. They are upstream of the Engineering Guidelines — when in doubt, the principle wins.
+
+## 1. Tokens are the language
+
+Every visual decision a component makes — color, spacing, typography, elevation, radii, motion — comes from a design token (`--sd-*`). Components never hard-code values like `#fff`, `12px`, or `Inter`. Tokens live in CSS custom properties so they cascade, theme switch automatically, and can be overridden in a single line of consumer CSS.
+
+## 2. Two layers of tokens: raw and semantic
+
+- **Raw palette tokens** (`--sd-color-primary-600`, `--sd-spacing-4`) describe a _value_. They live in `tokens/*.css` and rarely change.
+- **Semantic tokens** (`--sd-color-bg`, `--sd-color-fg`, `--sd-color-primary`, `--sd-color-error`) describe a _role_. They live in `themes/*.css` and resolve to different raw tokens per theme.
+
+**Components reference only semantic tokens.** This is what makes theme switching "just work" — when the theme changes, the semantic mappings change, and every component updates without touching its own CSS.
+
+## 3. The theming model
+
+Themes are applied via the `data-theme` attribute on a wrapping element (the `StudProvider` does this for you). `light` is the default; `dark` is a sibling. `system` follows `prefers-color-scheme` and updates live when the user changes their OS preference.
+
+Token overrides are pure CSS — no `tokens` prop on the provider. Re-declaring `--sd-*` in your stylesheet is the API. This makes overrides portal-safe (they cascade from `:root` into anything mounted under `document.body`), zero-runtime, and instantly familiar to anyone who has ever overridden a CSS variable.
+
+## 4. Accessibility is a feature, not a polish step
+
+Components ship with WAI-ARIA patterns wired up, keyboard interaction working, focus visible and managed, and color usage that holds up at WCAG AA contrast in both themes. `vitest-axe` assertions in unit tests catch regressions in CI; the Storybook `addon-a11y` panel must be clean for every story.
+
+## 5. RTL by default
+
+All component CSS uses logical properties (`margin-inline-start`, `padding-block`, `inset-inline-end`). Switching the document `dir` attribute mirrors the entire library without component changes. Stories include an RTL variant so reviewers can verify mirroring at glance.
+
+## 6. Lean APIs over flexible APIs
+
+A small, well-named set of props beats a large, configurable one. New props get added when concrete consumer use cases demand them — never speculatively. A prop is a contract; once shipped, it can only be removed in a major version.
+
+## 7. Composition over configuration
+
+When a single component would need too many props to cover all its variants, split it into composable parts. A `Modal` does not have a `headerTitle` prop; it has `<Modal.Header>` you put a title inside. Composition produces simpler types, smaller bundles, and more predictable behavior.
+
+## 8. Honest tree-shaking
+
+Every component is publishable at its own subpath (`stud-components/button`). The main barrel re-exports for ergonomic use, but consumers who care can opt into the smallest possible graph. CSS is loaded once via `import 'stud-components/styles.css'` — never bundled into JS — so JS imports stay genuinely side-effect-free.

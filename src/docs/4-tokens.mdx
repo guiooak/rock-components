@@ -1,0 +1,97 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { tokens } from '../tokens';
+
+<Meta title="Docs/Tokens" />
+
+# Tokens
+
+All visual decisions in Stud Components flow through tokens — CSS custom properties under the `--sd-*` namespace. This page is the canonical reference.
+
+## How to override
+
+Override defaults by re-declaring variables in your own stylesheet, loaded after `stud-components/styles.css`:
+
+```css
+:root {
+  --sd-color-primary: #e63946;
+}
+```
+
+Scope an override by setting the variable on any ancestor — the cascade does the rest:
+
+```css
+.brand-section {
+  --sd-color-primary: #2a9d8f;
+}
+```
+
+For runtime mutation, the typed CSS variable names are exported from `stud-components/tokens`:
+
+```ts
+import { tokens } from 'stud-components/tokens';
+document.documentElement.style.setProperty(tokens.colorPrimary, '#e63946');
+```
+
+## Reference
+
+The full set of token names is exported as a typed constant. Each entry below is the JS key on the left and the CSS variable name on the right.
+
+<table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+  <thead>
+    <tr>
+      <th
+        style={{
+          borderBottom: '2px solid var(--sd-color-border)',
+          padding: '8px 12px',
+        }}
+      >
+        JS key
+      </th>
+      <th
+        style={{
+          borderBottom: '2px solid var(--sd-color-border)',
+          padding: '8px 12px',
+        }}
+      >
+        CSS variable
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {Object.entries(tokens).map(([key, cssVar]) => (
+      <tr key={key}>
+        <td
+          style={{
+            borderBottom: '1px solid var(--sd-color-border)',
+            padding: '6px 12px',
+            fontFamily: 'var(--sd-font-family-mono)',
+            fontSize: '0.875rem',
+          }}
+        >
+          {key}
+        </td>
+        <td
+          style={{
+            borderBottom: '1px solid var(--sd-color-border)',
+            padding: '6px 12px',
+            fontFamily: 'var(--sd-font-family-mono)',
+            fontSize: '0.875rem',
+          }}
+        >
+          {cssVar}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+## Categories
+
+- **Surface** — `--sd-color-bg`, `--sd-color-bg-subtle`, `--sd-color-fg`, `--sd-color-fg-muted`, `--sd-color-border`
+- **Intent** — `--sd-color-primary`, `--sd-color-primary-fg`, `--sd-color-success`, `--sd-color-warning`, `--sd-color-error`, `--sd-color-info`
+- **Spacing** — `--sd-spacing-{0..20}` on a 4px scale
+- **Typography** — font families, sizes (xs–4xl), weights, line-heights
+- **Shadows** — `sm`, `md`, `lg`, `xl`
+- **Radii** — `none`, `sm`, `md`, `lg`, `xl`, `full`
+- **Breakpoints** — `sm`, `md`, `lg`, `xl`, `2xl`
+- **Z-index** — `base`, `dropdown`, `sticky`, `overlay`, `modal`, `popover`, `tooltip`
