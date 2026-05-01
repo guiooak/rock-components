@@ -1,0 +1,25 @@
+:global(.sd-template) {
+  display: block;
+}
+
+.root {
+  padding-block: var(--sd-spacing-3);
+  padding-inline: var(--sd-spacing-4);
+  border-radius: var(--sd-radius-md);
+  background-color: var(--sd-color-bg);
+  color: var(--sd-color-fg);
+  border: 1px solid var(--sd-color-border);
+  font-family: var(--sd-font-family-sans);
+  font-size: var(--sd-font-size-md);
+  line-height: var(--sd-line-height-normal);
+}
+
+.rootSubtle {
+  background-color: var(--sd-color-bg-subtle);
+  color: var(--sd-color-fg-muted);
+}
+
+.rootDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
