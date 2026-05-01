@@ -270,23 +270,40 @@ Create `src/components/_template/` as the canonical reference — it must embody
 - `index.ts` — barrel export of the component and its props type
 - `_template/` is excluded from the public build (`vite.config.ts` lib entry) and not re-exported from `src/index.ts`
 
-### Step 17: Main barrel export (`src/index.ts`)
+### Step 17: Main barrel export (`src/index.ts`) and styles entry
+
+The JS barrel **does not import any CSS**. Consumers explicitly load styles via the `./styles.css` subpath, which keeps `sideEffects: false` honest and allows full JS tree-shaking.
 
 ```ts
-// Provider
-export { StudProvider } from './provider';
+// src/index.ts — pure JS, zero side effects
+export { StudProvider, useStudTheme } from './provider';
 export type { StudProviderProps, StudTheme } from './provider';
 
-// Themes (CSS imports)
-import './themes/index.css';
-import './styles/reset.css';
-import './styles/global.css';
-
-// Tokens
-export * from './tokens';
+export * from './tokens'; // CSS variable name constants
 
 // Components will be added here
 ```
+
+A separate CSS entry aggregates reset + tokens + themes + globals, exposed via the package's `exports` map as `./styles.css`:
+
+```css
+/* src/styles.css — aggregated bundle */
+@import './styles/reset.css';
+@import './tokens/index.css';
+@import './themes/index.css';
+@import './styles/global.css';
+```
+
+Consumer setup becomes a one-liner alongside the JS import:
+
+```ts
+import 'stud-components/styles.css';
+import { StudProvider } from 'stud-components';
+```
+
+`package.json` reflects this:
+- `"sideEffects": false` (JS is fully tree-shakable)
+- `"exports": { ".": ..., "./styles.css": "./dist/styles.css", "./tokens": ... }`
 
 ### Step 18: Scripts in `package.json`
 
