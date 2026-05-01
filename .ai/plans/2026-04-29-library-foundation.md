@@ -255,6 +255,26 @@ A minimal provider that owns theme switching and exposes theme context. It does 
 - `npx husky init` for pre-commit hook
 - lint-staged: ESLint fix + Prettier on `*.{ts,tsx}`, Prettier on `*.{json,md,css}`
 
+### Step 14.5: Continuous Integration (`.github/workflows/ci.yml`)
+
+A single CI workflow runs on every pull request and on pushes to `main`. It must mirror the local Verification steps so contributors can reproduce CI failures locally without guesswork.
+
+- Runs on `pull_request` and `push` to `main`
+- Matrix-free (single Node version pinned via `.nvmrc` / `actions/setup-node@v4` with `node-version-file: '.nvmrc'`)
+- Uses Corepack for Yarn (`corepack enable`) so the `packageManager` field in `package.json` drives the version
+- Caches Yarn install via `actions/setup-node`'s built-in cache
+- Steps, in order, fail-fast:
+  1. `yarn install --immutable`
+  2. `yarn format:check`
+  3. `yarn lint`
+  4. `yarn typecheck`
+  5. `yarn test --coverage`
+  6. `yarn verify-package` (build + publint + attw)
+  7. `yarn size`
+  8. `yarn build-storybook` (smoke check that docs still build)
+
+Branch protection on `main` requires the workflow to pass before merge.
+
 ### Step 15: Storybook
 
 - Init with `npx storybook@latest init --builder vite --type react`
@@ -376,5 +396,6 @@ After implementation, verify everything works end-to-end:
 15. `src/docs/*.mdx` (introduction, engineering guidelines, design principles, tokens, contributing)
 16. `src/components/_template/*` (all template files)
 17. Husky + lint-staged setup
-18. `.nvmrc`
-19. Update `.gitignore`
+18. `.github/workflows/ci.yml`
+19. `.nvmrc`
+20. Update `.gitignore`
