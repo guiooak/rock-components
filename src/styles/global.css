@@ -1,0 +1,14 @@
+html {
+  font-family: var(--sd-font-family-sans);
+  font-size: 16px;
+  color: var(--sd-color-fg);
+  background-color: var(--sd-color-bg);
+  color-scheme: light dark;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--sd-font-family-mono);
+}

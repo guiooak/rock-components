@@ -1,0 +1,7 @@
+:root {
+  --sd-breakpoint-sm: 640px;
+  --sd-breakpoint-md: 768px;
+  --sd-breakpoint-lg: 1024px;
+  --sd-breakpoint-xl: 1280px;
+  --sd-breakpoint-2xl: 1536px;
+}

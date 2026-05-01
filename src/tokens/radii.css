@@ -1,0 +1,8 @@
+:root {
+  --sd-radius-none: 0;
+  --sd-radius-sm: 0.125rem;
+  --sd-radius-md: 0.25rem;
+  --sd-radius-lg: 0.5rem;
+  --sd-radius-xl: 0.75rem;
+  --sd-radius-full: 9999px;
+}

@@ -1,0 +1,25 @@
+:root {
+  --sd-font-family-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --sd-font-family-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --sd-font-size-xs: 0.75rem;
+  --sd-font-size-sm: 0.875rem;
+  --sd-font-size-md: 1rem;
+  --sd-font-size-lg: 1.125rem;
+  --sd-font-size-xl: 1.25rem;
+  --sd-font-size-2xl: 1.5rem;
+  --sd-font-size-3xl: 1.875rem;
+  --sd-font-size-4xl: 2.25rem;
+
+  --sd-font-weight-regular: 400;
+  --sd-font-weight-medium: 500;
+  --sd-font-weight-semibold: 600;
+  --sd-font-weight-bold: 700;
+
+  --sd-line-height-tight: 1.2;
+  --sd-line-height-normal: 1.5;
+  --sd-line-height-relaxed: 1.75;
+}

@@ -1,0 +1,14 @@
+:root {
+  --sd-spacing-0: 0;
+  --sd-spacing-1: 0.25rem;
+  --sd-spacing-2: 0.5rem;
+  --sd-spacing-3: 0.75rem;
+  --sd-spacing-4: 1rem;
+  --sd-spacing-5: 1.25rem;
+  --sd-spacing-6: 1.5rem;
+  --sd-spacing-8: 2rem;
+  --sd-spacing-10: 2.5rem;
+  --sd-spacing-12: 3rem;
+  --sd-spacing-16: 4rem;
+  --sd-spacing-20: 5rem;
+}

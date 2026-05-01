@@ -1,0 +1,9 @@
+:root {
+  --sd-z-base: 0;
+  --sd-z-dropdown: 1000;
+  --sd-z-sticky: 1100;
+  --sd-z-overlay: 1200;
+  --sd-z-modal: 1300;
+  --sd-z-popover: 1400;
+  --sd-z-tooltip: 1500;
+}

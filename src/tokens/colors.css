@@ -1,0 +1,41 @@
+:root {
+  --sd-color-neutral-0: #ffffff;
+  --sd-color-neutral-50: #f8f9fa;
+  --sd-color-neutral-100: #f1f3f5;
+  --sd-color-neutral-200: #e9ecef;
+  --sd-color-neutral-300: #dee2e6;
+  --sd-color-neutral-400: #ced4da;
+  --sd-color-neutral-500: #adb5bd;
+  --sd-color-neutral-600: #868e96;
+  --sd-color-neutral-700: #495057;
+  --sd-color-neutral-800: #343a40;
+  --sd-color-neutral-900: #212529;
+  --sd-color-neutral-1000: #000000;
+
+  --sd-color-primary-50: #e7f5ff;
+  --sd-color-primary-100: #d0ebff;
+  --sd-color-primary-200: #a5d8ff;
+  --sd-color-primary-300: #74c0fc;
+  --sd-color-primary-400: #4dabf7;
+  --sd-color-primary-500: #339af0;
+  --sd-color-primary-600: #228be6;
+  --sd-color-primary-700: #1c7ed6;
+  --sd-color-primary-800: #1971c2;
+  --sd-color-primary-900: #1864ab;
+
+  --sd-color-success-500: #40c057;
+  --sd-color-success-600: #37b24d;
+  --sd-color-success-700: #2f9e44;
+
+  --sd-color-warning-500: #fab005;
+  --sd-color-warning-600: #f59f00;
+  --sd-color-warning-700: #f08c00;
+
+  --sd-color-error-500: #fa5252;
+  --sd-color-error-600: #f03e3e;
+  --sd-color-error-700: #e03131;
+
+  --sd-color-info-500: #339af0;
+  --sd-color-info-600: #228be6;
+  --sd-color-info-700: #1c7ed6;
+}
