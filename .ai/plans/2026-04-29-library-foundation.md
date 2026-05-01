@@ -65,6 +65,7 @@ At a glance:
 - `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`, `prettier`, `eslint-config-prettier`
 - `@arethetypeswrong/cli`, `publint` (type-export and packaging sanity checks; see Verification)
 - `size-limit`, `@size-limit/preset-small-lib` (per-entry bundle-size budget enforced in CI)
+- `@changesets/cli` (versioning + changelog automation; see Step 14.6)
 - `husky`, `lint-staged`
 - Storybook packages (via `npx storybook@latest init`)
 - `@storybook/addon-a11y`
@@ -275,6 +276,24 @@ A single CI workflow runs on every pull request and on pushes to `main`. It must
 
 Branch protection on `main` requires the workflow to pass before merge.
 
+### Step 14.6: Release automation (Changesets)
+
+Versioning, changelogs, and publishing are owned by [Changesets](https://github.com/changesets/changesets) from day one. Manual `npm version` bumps and hand-written changelogs are out of scope.
+
+- `npx changeset init` creates `.changeset/config.json` (set `access: "public"`, `baseBranch: "main"`)
+- Contributors run `yarn changeset` as part of any PR that affects published code; the resulting markdown file in `.changeset/` is reviewed alongside the diff
+- `yarn changeset:version` (script alias for `changeset version`) bumps `package.json` and writes `CHANGELOG.md`
+- `yarn changeset:publish` (alias for `changeset publish`) tags and publishes to npm
+- A separate workflow `.github/workflows/release.yml` (triggered on push to `main`) uses `changesets/action@v1` to either open a "Version Packages" PR or publish when that PR merges. `NPM_TOKEN` lives as a repo secret.
+- Scripts to add in `package.json`:
+  ```json
+  {
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish"
+  }
+  ```
+
 ### Step 15: Storybook
 
 - Init with `npx storybook@latest init --builder vite --type react`
@@ -397,5 +416,6 @@ After implementation, verify everything works end-to-end:
 16. `src/components/_template/*` (all template files)
 17. Husky + lint-staged setup
 18. `.github/workflows/ci.yml`
-19. `.nvmrc`
-20. Update `.gitignore`
+19. `.changeset/config.json` + `.github/workflows/release.yml`
+20. `.nvmrc`
+21. Update `.gitignore`
