@@ -12,7 +12,8 @@ We're building a React component library and design system called **Stud Compone
 | CSS | **CSS Modules** (raw `.module.css`) | Scoped CSS, zero runtime, plain CSS syntax |
 | Build | **Vite library mode** | Native CSS Modules support, shared tooling with Storybook |
 | Themes | **Light + Dark from day one** | CSS custom properties on `:root`, dark via `[data-theme="dark"]` |
-| Token overrides | **Pure CSS (no `tokens` prop)** | Portal-safe, zero runtime, smaller API; consumers re-declare `--stud-*` in their own stylesheet |
+| Token overrides | **Pure CSS (no `tokens` prop)** | Portal-safe, zero runtime, smaller API; consumers re-declare `--sd-*` in their own stylesheet |
+| Naming prefix | **`sd-` for both classes and CSS variables** | Single mental model; collision risk is negligible for a domain-specific 2-letter prefix |
 | Colors | **Neutral starter palette** | Open-color-inspired, easy to rebrand later |
 
 ---
@@ -150,31 +151,31 @@ Tokens defined as CSS custom properties in plain `.css` files under `src/tokens/
 - **z-index.css**: Layering scale (dropdown, sticky, modal, popover, tooltip)
 - **index.css**: Aggregates all token files via `@import`
 
-All tokens namespaced with `--stud-` prefix (e.g., `--stud-color-primary-600`).
+All tokens namespaced with `--sd-` prefix (e.g., `--sd-color-primary-600`).
 
 A TypeScript barrel (`tokens/index.ts`) exports the **CSS variable names** as typed constants — a programmatic reference for consumers who need to mutate tokens at runtime via `element.style.setProperty(...)`:
 
 ```ts
 export const tokens = {
-  colorPrimary: '--stud-color-primary',
-  colorBg: '--stud-color-bg',
-  spacingUnit: '--stud-spacing-unit',
+  colorPrimary: '--sd-color-primary',
+  colorBg: '--sd-color-bg',
+  spacingUnit: '--sd-spacing-unit',
   // ...
 } as const;
 
 export type TokenName = keyof typeof tokens;
 ```
 
-**Token override architecture**: Defaults are set in CSS files (`:root` and `[data-theme]`). Overrides happen entirely in CSS — consumers re-declare `--stud-*` variables in their own stylesheet, loaded after Stud's:
+**Token override architecture**: Defaults are set in CSS files (`:root` and `[data-theme]`). Overrides happen entirely in CSS — consumers re-declare `--sd-*` variables in their own stylesheet, loaded after Stud's:
 
 ```css
 :root {
-  --stud-color-primary: #e63946;
-  --stud-spacing-unit: 6px;
+  --sd-color-primary: #e63946;
+  --sd-spacing-unit: 6px;
 }
 
 .brand-section {
-  --stud-color-primary: #2a9d8f; /* scoped subtree override */
+  --sd-color-primary: #2a9d8f; /* scoped subtree override */
 }
 ```
 
@@ -194,9 +195,9 @@ document.documentElement.style.setProperty(tokens.colorPrimary, userColor);
 
 ### Step 7: Themes
 
-- **`themes/light.css`**: Sets semantic token values on `:root` (e.g., `--stud-color-bg`, `--stud-color-fg`, `--stud-color-primary`)
+- **`themes/light.css`**: Sets semantic token values on `:root` (e.g., `--sd-color-bg`, `--sd-color-fg`, `--sd-color-primary`)
 - **`themes/dark.css`**: Overrides semantic tokens on `[data-theme="dark"]`
-- Components reference only semantic tokens (`--stud-color-bg`) not raw palette tokens (`--stud-color-neutral-0`), so theme switching "just works"
+- Components reference only semantic tokens (`--sd-color-bg`) not raw palette tokens (`--sd-color-neutral-0`), so theme switching "just works"
 
 ### Step 8: CSS reset & global styles
 
@@ -221,7 +222,7 @@ A minimal provider that owns theme switching and exposes theme context. It does 
 - Token overrides happen in the consumer's CSS, not through this component:
   ```css
   :root {
-    --stud-color-primary: #e63946;
+    --sd-color-primary: #e63946;
   }
   ```
 
@@ -303,7 +304,7 @@ Versioning, changelogs, and publishing are owned by [Changesets](https://github.
   - `1-introduction.mdx` — what Stud Components is, install + quick-start
   - `2-engineering-guidelines.mdx` — the seven-point quality bar (**already authored**)
   - `3-design-principles.mdx` — token philosophy, semantic vs raw tokens, theming model
-  - `4-tokens.mdx` — generated reference of all `--stud-*` tokens
+  - `4-tokens.mdx` — generated reference of all `--sd-*` tokens
   - `5-contributing.mdx` — how to add a new component (mirrors `_template/`)
 - Configure `storySort` in `.storybook/preview.ts` so `Docs/*` pages appear first in the sidebar, ahead of `Components/*`
 
