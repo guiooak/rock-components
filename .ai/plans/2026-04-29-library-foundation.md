@@ -70,6 +70,7 @@ At a glance:
 - Output formats: `es` and `cjs`
 - External: `react`, `react-dom`
 - CSS Modules enabled (default in Vite)
+- **Deterministic CSS Modules class names** via `css.modules.generateScopedName: '[name]_[local]_[hash:base64:5]'` so generated names are stable across builds (readable in DevTools, snapshot-friendly, easier to debug). Public root classes use `:global(.sd-*)` and bypass scoping entirely.
 - `vite-plugin-dts` for `.d.ts` generation
 - `@vitejs/plugin-react` for JSX
 
