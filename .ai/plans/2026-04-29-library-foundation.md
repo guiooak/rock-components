@@ -233,9 +233,10 @@ A minimal provider that owns theme switching and exposes theme context. It does 
 - `eslint-plugin-react-hooks` + `eslint-plugin-jsx-a11y`
 - `eslint-config-prettier` to disable conflicting rules
 
-### Step 13: Prettier (`.prettierrc.json`)
+### Step 13: Prettier (`.prettierrc.json`) and EditorConfig
 
-- Single quotes, trailing commas, 80 print width, 2-space tabs
+- Prettier: single quotes, trailing commas, 80 print width, 2-space tabs
+- `.editorconfig` at repo root for IDE-level consistency before formatting kicks in: UTF-8, LF line endings, 2-space indent, trim trailing whitespace, final newline
 
 ### Step 14: Husky + lint-staged
 
@@ -326,7 +327,7 @@ After implementation, verify everything works end-to-end:
 3. `vite.config.ts`
 4. `vitest.config.ts`
 5. `eslint.config.js`
-6. `.prettierrc.json` + `.prettierignore`
+6. `.prettierrc.json` + `.prettierignore` + `.editorconfig`
 7. `src/types/css.d.ts`
 8. `src/tokens/*.css` + `src/tokens/index.ts`
 9. `src/themes/light.css` + `src/themes/dark.css` + `src/themes/index.css`
