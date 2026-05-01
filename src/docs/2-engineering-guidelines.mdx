@@ -1,0 +1,53 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Engineering Guidelines" />
+
+# Engineering Guidelines
+
+These define the quality bar every Stud component must meet. They live in two places: as the reference implementation in `src/components/_template/`, and on this page, so contributors and consumers see the same standards.
+
+## 1. Lean, agnostic API
+
+A component's props are a public contract — once shipped, changing them is a breaking change with significant downstream cost (bugs, codebase-wide migrations, regression risk). Start with the minimum viable surface: only the props needed _today_, named in domain-neutral terms. Add props as real needs emerge, never for hypothetical future scenarios. Speculative features are the strongest signal of over-engineering.
+
+## 2. No business rules
+
+Components must be reusable across any feature, so they cannot encode product-specific logic, copy, or assumptions. A `Button` knows nothing about checkout; a `Modal` knows nothing about onboarding. The moment a feature-specific concern leaks in, a duplicate component will appear elsewhere because the existing one is "too specific."
+
+## 3. All use cases documented in Storybook
+
+Documentation is the multiplier on reuse — clear, discoverable docs are why developers find and trust a component instead of rebuilding it. Every component ships with stories covering its variants, states, and edge cases (loading, disabled, error, empty, long content). Designers also rely on Storybook to verify final behavior. If a use case isn't in a story, it isn't supported.
+
+## 4. Authored in TypeScript with strict types
+
+All components are written in TypeScript with `strict: true`. Props interfaces are exported, refs are typed via `forwardRef`, and discriminated unions are preferred over loose `string` types. Strong types double as documentation — Storybook autodocs reads them, and consumers get autocomplete and compile-time safety for free.
+
+## 5. Fully covered by unit tests
+
+Every component has tests (Vitest + Testing Library) covering: rendering, prop variations, user interactions, accessibility assertions, and ref forwarding. Tests serve two purposes — they prevent regressions as the library evolves, and they document expected behavior. A component without tests is not shippable.
+
+## 6. Class naming convention
+
+Stud uses CSS Modules for scoped styles, but exposes a stable, **global** class on every component root so consumers can target it for overrides. Inside `.module.css`, the public class is declared with `:global(...)`; element and modifier classes stay scoped.
+
+### a. Prefix every public class with `sd-`
+
+`sd-` (short for Stud) identifies a class as belonging to the library, both in source and in the rendered DOM. This makes overrides safe (consumers know `sd-*` classes are ours) and debugging easier.
+
+Examples: `sd-button`, `sd-col`, `sd-row`, `sd-divider`.
+
+### b. Follow BEM (Block, Element, Modifier)
+
+BEM is verbose but unambiguous, and it survives composition without specificity wars. See [getbem.com](http://getbem.com).
+
+- Block: `sd-card`
+- Element: `sd-card__header`
+- Modifier: `sd-card--elevated`, `sd-card__header--sticky`
+
+### c. Every component renders a default block class on its root
+
+Even when no styles are needed, the root element carries the block class (`sd-button`, `sd-select`, `sd-divider`). This gives consumers a stable, documented hook to extend or override styles in their own context, and makes components identifiable in the DOM.
+
+## 7. Accessible by default
+
+Every component must follow WAI-ARIA patterns and be usable by people with disabilities. Concretely: keyboard navigation works, focus is visible and managed, semantic HTML is preferred over `role` overrides, color is never the sole conveyor of state, and unit tests include `vitest-axe` assertions so violations fail CI. The Storybook `addon-a11y` panel must be clean for every story.

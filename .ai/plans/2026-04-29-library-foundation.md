@@ -16,6 +16,22 @@ We're building a React component library and design system called **Stud Compone
 
 ---
 
+## Engineering Guidelines
+
+The seven-point quality bar every Stud component must meet lives as a Storybook docs page at [`src/docs/2-engineering-guidelines.mdx`](../../src/docs/2-engineering-guidelines.mdx) — that file is the canonical, consumer-facing source of truth. The reference implementation in `src/components/_template/` must embody every point.
+
+At a glance:
+
+1. **Lean, agnostic API** — minimum viable props; no speculative features.
+2. **No business rules** — components are domain-neutral and reusable across any feature.
+3. **All use cases documented in Storybook** — variants, states, and edge cases.
+4. **Authored in TypeScript with strict types** — exported props, typed refs, discriminated unions.
+5. **Fully covered by unit tests** — Vitest + Testing Library, including `vitest-axe`.
+6. **Class naming convention** — `sd-` prefix, BEM, public root class via `:global(...)` in CSS Modules.
+7. **Accessible by default** — WAI-ARIA, keyboard, focus management, color-independent state.
+
+---
+
 ## Implementation Steps
 
 ### Step 1: Package initialization
@@ -188,18 +204,26 @@ A TypeScript barrel (`tokens/index.ts`) will also export:
 ### Step 15: Storybook
 
 - Init with `npx storybook@latest init --builder vite --type react`
-- `.storybook/main.ts`: Configure stories glob, addons (essentials, a11y, interactions), autodocs
+- `.storybook/main.ts`: Configure stories glob (includes `src/**/*.stories.tsx` and `src/docs/**/*.mdx`), addons (essentials, a11y, interactions), autodocs
 - `.storybook/preview.ts`: Theme switcher in toolbar (light/dark), decorators wrapping stories in `StudProvider`
+- **Docs MDX pages** under `src/docs/` (numbered to control sidebar order):
+  - `1-introduction.mdx` — what Stud Components is, install + quick-start
+  - `2-engineering-guidelines.mdx` — the seven-point quality bar (**already authored**)
+  - `3-design-principles.mdx` — token philosophy, semantic vs raw tokens, theming model
+  - `4-tokens.mdx` — generated reference of all `--stud-*` tokens
+  - `5-contributing.mdx` — how to add a new component (mirrors `_template/`)
+- Configure `storySort` in `.storybook/preview.ts` so `Docs/*` pages appear first in the sidebar, ahead of `Components/*`
 
 ### Step 16: Component template
 
-Create `src/components/_template/` as a reference for how every component should be structured:
+Create `src/components/_template/` as the canonical reference — it must embody every point of the Engineering Guidelines so contributors copy it as a starting point:
 
-- `Template.tsx` — functional component with props interface, forwardRef, CSS module import
-- `Template.module.css` — scoped styles using design tokens
-- `Template.test.tsx` — basic render and interaction tests
-- `Template.stories.tsx` — default story, variants, autodocs tag
-- `index.ts` — barrel export
+- `Template.tsx` — functional component with exported props interface, `forwardRef`, CSS module import; root element renders the public block class via `:global(.sd-template)` plus any scoped element/modifier classes from the module
+- `Template.module.css` — scoped styles using semantic tokens only (no raw palette tokens), with `:global(.sd-template)` for the public root class and BEM-style element/modifier classes (`__header`, `--disabled`, etc.)
+- `Template.test.tsx` — render, prop variants, interactions, ref forwarding, and `vitest-axe` accessibility assertion
+- `Template.stories.tsx` — default story plus variant/state stories covering loading, disabled, error, and edge cases; `autodocs` tag enabled
+- `index.ts` — barrel export of the component and its props type
+- `_template/` is excluded from the public build (`vite.config.ts` lib entry) and not re-exported from `src/index.ts`
 
 ### Step 17: Main barrel export (`src/index.ts`)
 
@@ -270,6 +294,7 @@ After implementation, verify everything works end-to-end:
 12. `src/provider/StudProvider.tsx` + test + index
 13. `src/index.ts`
 14. `.storybook/main.ts` + `.storybook/preview.ts`
-15. `src/components/_template/*` (all template files)
-16. Husky + lint-staged setup
-17. Update `.gitignore`
+15. `src/docs/*.mdx` (introduction, engineering guidelines, design principles, tokens, contributing)
+16. `src/components/_template/*` (all template files)
+17. Husky + lint-staged setup
+18. Update `.gitignore`
