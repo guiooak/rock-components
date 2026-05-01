@@ -41,6 +41,10 @@ At a glance:
 - Configure `name`, `version`, `type: "module"`, `exports`, `peerDependencies`, `files`, `sideEffects`
 - Peer deps: `react ^18 || ^19`, `react-dom ^18 || ^19`
 - `exports` map: `.` (main), `./tokens`, `./styles.css`
+- **Pin tooling versions** so contributors and CI run on identical toolchains:
+  - `packageManager: "yarn@4.x.x"` (corepack-managed)
+  - `engines: { "node": ">=20.11" }`
+  - `.nvmrc` at repo root with the matching Node major version
 
 ### Step 2: Install dependencies
 
@@ -334,4 +338,5 @@ After implementation, verify everything works end-to-end:
 15. `src/docs/*.mdx` (introduction, engineering guidelines, design principles, tokens, contributing)
 16. `src/components/_template/*` (all template files)
 17. Husky + lint-staged setup
-18. Update `.gitignore`
+18. `.nvmrc`
+19. Update `.gitignore`
