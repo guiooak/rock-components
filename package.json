@@ -1,0 +1,104 @@
+{
+  "name": "stud-components",
+  "version": "0.0.0",
+  "description": "A React component library and design system",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "yarn@4.6.0",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/tokens/index.js",
+      "require": "./dist/tokens/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "vite build",
+    "build-storybook": "storybook build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "publint": "publint",
+    "attw": "attw --pack .",
+    "verify-package": "yarn build && yarn publint && yarn attw",
+    "size": "size-limit",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "prepare": "husky"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.0",
+    "@changesets/cli": "^2.27.0",
+    "@eslint/js": "^9.18.0",
+    "@size-limit/preset-small-lib": "^11.1.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "husky": "^9.1.0",
+    "jsdom": "^26.0.0",
+    "lint-staged": "^15.4.0",
+    "prettier": "^3.4.0",
+    "publint": "^0.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "size-limit": "^11.1.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.20.0",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.5.0",
+    "vitest": "^3.0.0",
+    "vitest-axe": "^0.1.0"
+  },
+  "size-limit": [
+    {
+      "name": "Main barrel (ESM)",
+      "path": "dist/index.js",
+      "limit": "10 KB"
+    },
+    {
+      "name": "Styles bundle",
+      "path": "dist/styles.css",
+      "limit": "8 KB"
+    }
+  ]
+}
