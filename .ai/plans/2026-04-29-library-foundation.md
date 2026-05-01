@@ -62,6 +62,7 @@ At a glance:
 - `vite`, `vite-plugin-dts`, `@vitejs/plugin-react`
 - `vitest`, `@vitest/coverage-v8`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `vitest-axe` (a11y assertions in unit tests, required by Engineering Guideline #7)
 - `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`, `prettier`, `eslint-config-prettier`
+- `@arethetypeswrong/cli`, `publint` (type-export and packaging sanity checks; see Verification)
 - `husky`, `lint-staged`
 - Storybook packages (via `npx storybook@latest init`)
 - `@storybook/addon-a11y`
@@ -326,6 +327,9 @@ import { StudProvider } from 'stud-components';
   "test:watch": "vitest",
   "test:coverage": "vitest run --coverage",
   "typecheck": "tsc --noEmit",
+  "publint": "publint",
+  "attw": "attw --pack .",
+  "verify-package": "yarn build && yarn publint && yarn attw",
   "prepare": "husky"
 }
 ```
@@ -340,9 +344,10 @@ After implementation, verify everything works end-to-end:
 2. **Type check**: `yarn typecheck` — no errors
 3. **Lint**: `yarn lint` — no errors
 4. **Format**: `yarn format:check` — all files formatted
-5. **Test**: `yarn test` — template component tests pass
-6. **Storybook**: `yarn dev` — opens at localhost:6006, template component renders, theme switcher works (light/dark), a11y addon shows results
-7. **Pre-commit hook**: Stage a file and commit — lint-staged should run automatically
+5. **Test**: `yarn test` — template component tests pass (including `vitest-axe` assertions)
+6. **Package sanity**: `yarn verify-package` — runs `publint` (catches malformed `exports`, missing files, bad `main`/`module`/`types`) and `attw --pack .` (catches type-export issues across ESM/CJS/dual-publish)
+7. **Storybook**: `yarn dev` — opens at localhost:6006, template component renders, theme switcher works (light/dark/system), a11y addon shows results
+8. **Pre-commit hook**: Stage a file and commit — lint-staged should run automatically
 
 ---
 
