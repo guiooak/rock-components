@@ -54,7 +54,7 @@ At a glance:
 **Dev dependencies:**
 - `typescript`, `react`, `react-dom`, `@types/react`, `@types/react-dom`
 - `vite`, `vite-plugin-dts`, `@vitejs/plugin-react`
-- `vitest`, `@vitest/coverage-v8`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`
+- `vitest`, `@vitest/coverage-v8`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, `vitest-axe` (a11y assertions in unit tests, required by Engineering Guideline #7)
 - `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`, `prettier`, `eslint-config-prettier`
 - `husky`, `lint-staged`
 - Storybook packages (via `npx storybook@latest init`)
@@ -219,7 +219,7 @@ A minimal provider that owns theme switching and exposes theme context. It does 
 
 - **className merging**: use `clsx` (~250 bytes) as a runtime dep — no hand-rolled helper. Re-exported from `src/index.ts` only if components actually need consumers to use the same instance; otherwise components import it internally.
 - **`test-utils.tsx`**: Custom `render` wrapping components in `StudProvider`
-- **`test-setup.ts`**: Imports `@testing-library/jest-dom/vitest`
+- **`test-setup.ts`**: Imports `@testing-library/jest-dom/vitest` and registers `vitest-axe` matchers (`expect.extend({ toHaveNoViolations })`)
 - **`css.d.ts`**: Declares `*.module.css` modules for TypeScript
 
 ### Step 11: Vitest config (`vitest.config.ts`)
