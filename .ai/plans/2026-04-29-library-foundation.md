@@ -48,6 +48,9 @@ At a glance:
 
 ### Step 2: Install dependencies
 
+**Runtime dependencies:**
+- `clsx` (className merging — ~250 bytes, zero alternatives worth maintaining ourselves)
+
 **Dev dependencies:**
 - `typescript`, `react`, `react-dom`, `@types/react`, `@types/react-dom`
 - `vite`, `vite-plugin-dts`, `@vitejs/plugin-react`
@@ -115,7 +118,6 @@ stud-components/
     utils/
       test-setup.ts
       test-utils.tsx
-      cn.ts                   # className merge helper
     index.ts                  # Main barrel export
   .prettierrc.json
   .prettierignore
@@ -215,7 +217,7 @@ A minimal provider that owns theme switching and exposes theme context. It does 
 
 ### Step 10: Utility helpers
 
-- **`cn.ts`**: Simple className merge utility (concatenates and filters falsy values)
+- **className merging**: use `clsx` (~250 bytes) as a runtime dep — no hand-rolled helper. Re-exported from `src/index.ts` only if components actually need consumers to use the same instance; otherwise components import it internally.
 - **`test-utils.tsx`**: Custom `render` wrapping components in `StudProvider`
 - **`test-setup.ts`**: Imports `@testing-library/jest-dom/vitest`
 - **`css.d.ts`**: Declares `*.module.css` modules for TypeScript
@@ -333,7 +335,7 @@ After implementation, verify everything works end-to-end:
 8. `src/tokens/*.css` + `src/tokens/index.ts`
 9. `src/themes/light.css` + `src/themes/dark.css` + `src/themes/index.css`
 10. `src/styles/reset.css` + `src/styles/global.css`
-11. `src/utils/cn.ts` + `src/utils/test-setup.ts` + `src/utils/test-utils.tsx`
+11. `src/utils/test-setup.ts` + `src/utils/test-utils.tsx`
 12. `src/provider/StudProvider.tsx` + test + index
 13. `src/index.ts`
 14. `.storybook/main.ts` + `.storybook/preview.ts`
