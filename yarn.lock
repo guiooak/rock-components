@@ -4309,6 +4309,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"globals@npm:^17.5.0":
+  version: 17.5.0
+  resolution: "globals@npm:17.5.0"
+  checksum: 10c0/92828102ed2f5637907725f0478038bed02fc83e9fc89300bb753639ba7c022b6c02576fc772117302b431b204591db1f2fa909d26f3f0a9852cc856a941df3f
+  languageName: node
+  linkType: hard
+
 "globalthis@npm:^1.0.4":
   version: 1.0.4
   resolution: "globalthis@npm:1.0.4"
@@ -7059,6 +7066,7 @@ __metadata:
     eslint-config-prettier: "npm:^10.0.0"
     eslint-plugin-jsx-a11y: "npm:^6.10.0"
     eslint-plugin-react-hooks: "npm:^5.1.0"
+    globals: "npm:^17.5.0"
     husky: "npm:^9.1.0"
     jsdom: "npm:^26.0.0"
     lint-staged: "npm:^15.4.0"

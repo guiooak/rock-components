@@ -1,6 +1,6 @@
-export { StudProvider, useStudTheme, useSetStudTheme } from './StudProvider';
+export { StudProvider, useStudTheme, useSetStudTheme } from './StudProvider.js';
 export type {
   StudProviderProps,
   StudTheme,
   ResolvedTheme,
-} from './StudProvider';
+} from './StudProvider.js';

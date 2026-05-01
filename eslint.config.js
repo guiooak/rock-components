@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
@@ -34,6 +35,12 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
+    },
+  },
+  {
+    files: ['scripts/**/*.{js,mjs}', '*.config.{js,mjs,ts}'],
+    languageOptions: {
+      globals: { ...globals.node },
     },
   },
   prettier,

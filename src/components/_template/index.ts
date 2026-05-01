@@ -1,2 +1,2 @@
-export { Template } from './Template';
-export type { TemplateProps } from './Template';
+export { Template } from './Template.js';
+export type { TemplateProps } from './Template.js';

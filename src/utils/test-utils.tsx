@@ -1,6 +1,6 @@
 import type { ReactElement, ReactNode } from 'react';
 import { render, type RenderOptions } from '@testing-library/react';
-import { StudProvider } from '../provider';
+import { StudProvider } from '../provider/index.js';
 
 const Wrapper = ({ children }: { children: ReactNode }) => (
   <StudProvider>{children}</StudProvider>
