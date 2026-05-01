@@ -1,8 +1,12 @@
 name: Release
 
+# Parked until the library is ready to publish. Switch back to
+#   on:
+#     push:
+#       branches: [main]
+# to re-enable automatic Changesets-driven releases on pushes to main.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: release-${{ github.workflow }}-${{ github.ref }}

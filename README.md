@@ -132,7 +132,7 @@ Every component is a copy-and-adapt of the reference template at [`src/component
 
 8. **Open a PR.** CI runs lint, typecheck, tests, package verification, bundle-size, and a Storybook build. Branch protection on `main` requires all of them to pass.
 
-Releases are automated via [Changesets](https://github.com/changesets/changesets): a "Release packages" PR is opened on push to `main` whenever changesets are pending, and merging it publishes to npm.
+[Changesets](https://github.com/changesets/changesets) is wired up for versioning and changelog entries — please add a changeset to any PR that affects published code. Automated publishing is parked until the library matures; the release workflow currently only runs on manual dispatch.
 
 ## License
 
