@@ -40,7 +40,13 @@ At a glance:
 - Create `package.json` with Yarn
 - Configure `name`, `version`, `type: "module"`, `exports`, `peerDependencies`, `files`, `sideEffects`
 - Peer deps: `react ^18 || ^19`, `react-dom ^18 || ^19`
-- `exports` map: `.` (main), `./tokens`, `./styles.css`
+- **`exports` map** designed for both barrel and per-component imports so consumers can opt into the smallest possible graph:
+  - `.` — main barrel (all components, provider, hooks)
+  - `./styles.css` — aggregated CSS bundle (see Step 17)
+  - `./tokens` — CSS variable name constants (see Step 6)
+  - `./<component>` — per-component subpaths (e.g., `./button`, `./modal`), each with its own `import`/`require` conditions and types
+  - Pattern entries (`"./*": "./dist/*.js"`) are avoided — every public entry is enumerated explicitly so removals are intentional and `attw`/`publint` can verify them
+- Vite library mode is configured with one entry per component plus the root barrel, so each subpath gets its own chunk and consumers pay for only what they import
 - **Pin tooling versions** so contributors and CI run on identical toolchains:
   - `packageManager: "yarn@4.x.x"` (corepack-managed)
   - `engines: { "node": ">=20.11" }`
@@ -69,7 +75,7 @@ At a glance:
 
 ### Step 4: Vite build config (`vite.config.ts`)
 
-- Library mode with `entry: src/index.ts`
+- Library mode with **multiple entries**: the root barrel (`src/index.ts`) plus one entry per public component (`src/components/<name>/index.ts`), preserving module structure so each subpath in `package.json#exports` resolves to its own chunk
 - Output formats: `es` and `cjs`
 - External: `react`, `react-dom`
 - CSS Modules enabled (default in Vite)
