@@ -12,6 +12,7 @@ We're building a React component library and design system called **Stud Compone
 | CSS | **CSS Modules** (raw `.module.css`) | Scoped CSS, zero runtime, plain CSS syntax |
 | Build | **Vite library mode** | Native CSS Modules support, shared tooling with Storybook |
 | Themes | **Light + Dark from day one** | CSS custom properties on `:root`, dark via `[data-theme="dark"]` |
+| Token overrides | **Pure CSS (no `tokens` prop)** | Portal-safe, zero runtime, smaller API; consumers re-declare `--stud-*` in their own stylesheet |
 | Colors | **Neutral starter palette** | Open-color-inspired, easy to rebrand later |
 
 ---
@@ -134,12 +135,45 @@ Tokens defined as CSS custom properties in plain `.css` files under `src/tokens/
 
 All tokens namespaced with `--stud-` prefix (e.g., `--stud-color-primary-600`).
 
-A TypeScript barrel (`tokens/index.ts`) will also export:
-- Token values as JS constants for programmatic use
-- A `StudTokens` type representing all overridable tokens (used by `StudProvider`'s `tokens` prop)
-- A `tokenToCSSVar` map connecting camelCase token names to their `--stud-*` CSS variable names
+A TypeScript barrel (`tokens/index.ts`) exports the **CSS variable names** as typed constants — a programmatic reference for consumers who need to mutate tokens at runtime via `element.style.setProperty(...)`:
 
-**Token override architecture**: Defaults are set in CSS files (`:root` and `[data-theme]`). Overrides are applied via inline `style` on the `StudProvider` wrapper div. Since inline CSS custom properties cascade into children, any component using `var(--stud-*)` automatically picks up the override. This is zero-config for consumers — just pass the values you want to change.
+```ts
+export const tokens = {
+  colorPrimary: '--stud-color-primary',
+  colorBg: '--stud-color-bg',
+  spacingUnit: '--stud-spacing-unit',
+  // ...
+} as const;
+
+export type TokenName = keyof typeof tokens;
+```
+
+**Token override architecture**: Defaults are set in CSS files (`:root` and `[data-theme]`). Overrides happen entirely in CSS — consumers re-declare `--stud-*` variables in their own stylesheet, loaded after Stud's:
+
+```css
+:root {
+  --stud-color-primary: #e63946;
+  --stud-spacing-unit: 6px;
+}
+
+.brand-section {
+  --stud-color-primary: #2a9d8f; /* scoped subtree override */
+}
+```
+
+This approach is deliberate:
+
+- **Portal-safe** — overrides on `:root` cascade to portals (which mount under `document.body`), so modals, tooltips, and popovers inherit naturally. The wrapper-div + inline-style approach we considered earlier broke here.
+- **Zero runtime** — no JS computation, no re-renders on token change, no injected wrapper div.
+- **Smaller API surface** — no `StudTokens` type, no `tokens` prop on the provider, no `mapTokensToCSS` helper to maintain.
+- **Standard CSS** — consumers already know how to override custom properties; scoped overrides come for free via the cascade.
+
+Runtime mutation (e.g., a user-facing theme picker) is the consumer's responsibility:
+
+```ts
+import { tokens } from 'stud-components/tokens';
+document.documentElement.style.setProperty(tokens.colorPrimary, userColor);
+```
 
 ### Step 7: Themes
 
@@ -152,24 +186,27 @@ A TypeScript barrel (`tokens/index.ts`) will also export:
 - **`styles/reset.css`**: Modern CSS reset (box-sizing, margin reset, img display, etc.)
 - **`styles/global.css`**: Applies font-family, base font-size, color, and background from tokens
 
-### Step 9: StudProvider (with token overrides)
+### Step 9: StudProvider
 
-- Wrapper component that applies theme, imports global CSS, and allows token overrides
+A minimal provider that owns theme switching and exposes theme context. It does **not** accept a `tokens` prop — token overrides are pure CSS (see Step 6).
+
 - Props:
   - `children: ReactNode`
-  - `theme: 'light' | 'dark'` (default `'light'`)
-  - `tokens?: Partial<StudTokens>` — consumer can override any token value
-- Applies `data-theme` attribute on a wrapping `<div>`
-- Token overrides are applied as inline CSS custom properties on the wrapper `<div>`, which cascade over the defaults defined in the theme CSS files
+  - `theme?: 'light' | 'dark' | 'system'` (default `'system'`)
+- Applies `data-theme` attribute on a wrapping `<div>` (or the document root — see open question below). When `theme="system"`, follows `prefers-color-scheme` via `matchMedia` and updates on change.
+- Exposes a `useStudTheme()` context hook returning `{ theme, resolvedTheme, setTheme }` so components and consumers can read and switch themes.
 - Example consumer usage:
   ```tsx
-  <StudProvider theme="dark" tokens={{ colorPrimary: '#e63946', spacingUnit: '6px' }}>
+  <StudProvider theme="system">
     <App />
   </StudProvider>
   ```
-- A `StudTokens` type is generated from the token definitions, mapping camelCase prop names to `--stud-*` CSS custom property names
-- Also exposes a `useStudTheme` context hook for components that need to read the current theme
-- A helper function `mapTokensToCSS(tokens)` converts the partial tokens object to a `CSSProperties` style object with the corresponding `--stud-*` variables
+- Token overrides happen in the consumer's CSS, not through this component:
+  ```css
+  :root {
+    --stud-color-primary: #e63946;
+  }
+  ```
 
 ### Step 10: Utility helpers
 
