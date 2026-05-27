@@ -311,7 +311,7 @@ Versioning, changelogs, and publishing are owned by [Changesets](https://github.
 
 Create `src/components/_template/` as the canonical reference — it must embody every point of the Engineering Guidelines so contributors copy it as a starting point:
 
-- `Template.tsx` — functional component with exported props interface, `forwardRef`, CSS module import; root element renders the public block class via `:global(.sd-template)` plus any scoped element/modifier classes from the module
+- `Template.tsx` — functional component with exported props interface, `ref` as a regular prop, CSS module import; root element renders the public block class via `:global(.sd-template)` plus any scoped element/modifier classes from the module
 - `Template.module.css` — scoped styles using semantic tokens only (no raw palette tokens), with `:global(.sd-template)` for the public root class and BEM-style element/modifier classes (`__header`, `--disabled`, etc.)
 - `Template.test.tsx` — render, prop variants, interactions, ref forwarding, and `vitest-axe` accessibility assertion
 - `Template.stories.tsx` — default story plus variant/state stories covering loading, disabled, error, and edge cases; `autodocs` tag enabled

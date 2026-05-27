@@ -18,8 +18,7 @@ Rename `Template.tsx`, `Template.module.css`, `Template.test.tsx`, `Template.sto
 
 The template demonstrates every Engineering Guideline:
 
-- **`forwardRef`** with typed ref target.
-- **Exported props interface** named `<Component>Props`.
+- **Exported props interface** named `<Component>Props`, with `ref?: Ref<HTMLElement>` included when the component exposes a ref.
 - **Public root class** declared as `:global(.sd-<component>)` in the CSS module so consumers can target it for overrides.
 - **BEM modifiers** as scoped classes from the module (`__header`, `--disabled`).
 - **Semantic tokens only** — no raw palette tokens, no hard-coded values.

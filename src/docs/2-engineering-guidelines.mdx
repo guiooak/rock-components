@@ -20,7 +20,7 @@ Documentation is the multiplier on reuse — clear, discoverable docs are why de
 
 ## 4. Authored in TypeScript with strict types
 
-All components are written in TypeScript with `strict: true`. Props interfaces are exported, refs are typed via `forwardRef`, and discriminated unions are preferred over loose `string` types. Strong types double as documentation — Storybook autodocs reads them, and consumers get autocomplete and compile-time safety for free.
+All components are written in TypeScript with `strict: true`. Props interfaces are exported, refs are typed by adding `ref?: Ref<HTMLElement>` directly to the props interface (React 19 passes refs as regular props), and discriminated unions are preferred over loose `string` types. Strong types double as documentation — Storybook autodocs reads them, and consumers get autocomplete and compile-time safety for free.
 
 ## 5. Fully covered by unit tests
 

@@ -113,7 +113,7 @@ Every component is a copy-and-adapt of the reference template at [`src/component
 1. **Copy the template** to `src/components/<your-component>/` and rename the files.
 2. **Build the component** following the Engineering Guidelines:
    - Lean, agnostic API (no business rules, no speculative props).
-   - `forwardRef`, exported props interface.
+   - Exported props interface (include `ref?: Ref<HTMLElement>` for components that expose a ref).
    - Public `:global(.sd-<component>)` root class plus BEM-scoped element/modifier classes.
    - Semantic tokens only.
    - Full WAI-ARIA and keyboard handling.

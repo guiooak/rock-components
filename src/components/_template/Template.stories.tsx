@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Reference implementation. Copy this folder when adding a new component — it embodies every Engineering Guideline (forwardRef, exported props, public sd-* block class, BEM modifiers via CSS Modules, semantic tokens only, full unit + a11y tests).',
+          'Reference implementation. Copy this folder when adding a new component — it embodies every Engineering Guideline (exported props, ref as prop, public sd-* block class, BEM modifiers via CSS Modules, semantic tokens only, full unit + a11y tests).',
       },
     },
   },
