@@ -9,6 +9,10 @@
     "node": ">=20.11.0"
   },
   "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "files": [
     "dist"
   ],
