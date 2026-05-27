@@ -51,7 +51,3 @@ Even when no styles are needed, the root element carries the block class (`sd-bu
 ## 7. Accessible by default
 
 Every component must follow WAI-ARIA patterns and be usable by people with disabilities. Concretely: keyboard navigation works, focus is visible and managed, semantic HTML is preferred over `role` overrides, color is never the sole conveyor of state, and unit tests include `vitest-axe` assertions so violations fail CI. The Storybook `addon-a11y` panel must be clean for every story.
-
-## 8. Internationalization-ready (logical CSS properties)
-
-Components must work in both LTR and RTL contexts. Always use logical CSS properties — `margin-inline-start`, `padding-block`, `inset-inline-end`, `border-inline-end` — instead of physical ones (`margin-left`, `padding-top`, `right`, `border-right`). The browser flips them automatically based on the document's `dir` attribute, so a single stylesheet handles both reading orders. Stories should include an RTL variant (or a global Storybook decorator that toggles `dir="rtl"`) to verify mirroring at review time. Retrofitting RTL later is significantly more work than getting it right per-component.
