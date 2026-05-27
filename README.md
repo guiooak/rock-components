@@ -12,7 +12,7 @@ Pre-1.0. The foundation is in place; components will land one at a time, each he
 yarn add stud-components react react-dom
 ```
 
-`react` and `react-dom` are peer dependencies (`^18 || ^19`).
+`react` and `react-dom` are peer dependencies (`^19`).
 
 ## Quick start
 
