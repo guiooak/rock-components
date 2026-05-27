@@ -60,7 +60,6 @@ document.documentElement.style.setProperty(tokens.colorPrimary, '#e63946');
 - **Pure-CSS token overrides** — no `tokens` prop on the provider, portal-safe, zero runtime cost.
 - **`sd-` BEM classes** on every component root for stable, documented override hooks.
 - **Accessibility-first** — WAI-ARIA patterns, keyboard handling, `vitest-axe` assertions in CI, Storybook a11y addon.
-- **RTL-ready** — components use only logical CSS properties; the library mirrors automatically when `dir="rtl"`.
 - **Per-component subpath imports** for the smallest possible bundle: `import { Button } from 'stud-components/button'`.
 
 For the full story, see the Storybook docs:
@@ -116,10 +115,10 @@ Every component is a copy-and-adapt of the reference template at [`src/component
    - Lean, agnostic API (no business rules, no speculative props).
    - `forwardRef`, exported props interface.
    - Public `:global(.sd-<component>)` root class plus BEM-scoped element/modifier classes.
-   - Semantic tokens only, logical CSS properties for RTL.
+   - Semantic tokens only.
    - Full WAI-ARIA and keyboard handling.
 3. **Tests** covering rendering, prop variants, interactions, ref forwarding, and at least one `vitest-axe` accessibility assertion.
-4. **Stories** for every variant, state, and edge case (loading, disabled, error, empty, long content, RTL).
+4. **Stories** for every variant, state, and edge case (loading, disabled, error, empty, long content).
 5. **Wire up the exports** in `src/index.ts` and add a per-component subpath in `package.json#exports`.
 6. **Bundle-size budget** — add a `size-limit` entry for the new subpath.
 7. **Add a changeset**:

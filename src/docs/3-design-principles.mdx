@@ -27,18 +27,14 @@ Token overrides are pure CSS — no `tokens` prop on the provider. Re-declaring 
 
 Components ship with WAI-ARIA patterns wired up, keyboard interaction working, focus visible and managed, and color usage that holds up at WCAG AA contrast in both themes. `vitest-axe` assertions in unit tests catch regressions in CI; the Storybook `addon-a11y` panel must be clean for every story.
 
-## 5. RTL by default
-
-All component CSS uses logical properties (`margin-inline-start`, `padding-block`, `inset-inline-end`). Switching the document `dir` attribute mirrors the entire library without component changes. Stories include an RTL variant so reviewers can verify mirroring at glance.
-
-## 6. Lean APIs over flexible APIs
+## 5. Lean APIs over flexible APIs
 
 A small, well-named set of props beats a large, configurable one. New props get added when concrete consumer use cases demand them — never speculatively. A prop is a contract; once shipped, it can only be removed in a major version.
 
-## 7. Composition over configuration
+## 6. Composition over configuration
 
 When a single component would need too many props to cover all its variants, split it into composable parts. A `Modal` does not have a `headerTitle` prop; it has `<Modal.Header>` you put a title inside. Composition produces simpler types, smaller bundles, and more predictable behavior.
 
-## 8. Honest tree-shaking
+## 7. Honest tree-shaking
 
 Every component is publishable at its own subpath (`stud-components/button`). The main barrel re-exports for ergonomic use, but consumers who care can opt into the smallest possible graph. CSS is loaded once via `import 'stud-components/styles.css'` — never bundled into JS — so JS imports stay genuinely side-effect-free.

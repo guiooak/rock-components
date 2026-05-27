@@ -31,7 +31,6 @@ At a glance:
 5. **Fully covered by unit tests** — Vitest + Testing Library, including `vitest-axe`.
 6. **Class naming convention** — `sd-` prefix, BEM, public root class via `:global(...)` in CSS Modules.
 7. **Accessible by default** — WAI-ARIA, keyboard, focus management, color-independent state.
-8. **Internationalization-ready** — logical CSS properties only (`margin-inline-*`, `inset-inline-*`); RTL works without component changes.
 
 ---
 

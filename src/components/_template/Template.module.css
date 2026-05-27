@@ -3,8 +3,7 @@
 }
 
 .root {
-  padding-block: var(--sd-spacing-3);
-  padding-inline: var(--sd-spacing-4);
+  padding: var(--sd-spacing-3) var(--sd-spacing-4);
   border-radius: var(--sd-radius-md);
   background-color: var(--sd-color-bg);
   color: var(--sd-color-fg);

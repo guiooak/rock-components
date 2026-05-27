@@ -51,15 +51,3 @@ export const LongContent: Story = {
       'A long block of content that exercises wrapping behavior, padding, and line-height to make sure the template renders sensibly across content lengths and viewport widths.',
   },
 };
-
-export const RTL: Story = {
-  args: { children: 'مرحبا — RTL content' },
-  parameters: { direction: 'rtl' },
-  decorators: [
-    (Story) => (
-      <div dir="rtl">
-        <Story />
-      </div>
-    ),
-  ],
-};

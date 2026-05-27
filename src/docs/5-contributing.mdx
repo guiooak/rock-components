@@ -23,7 +23,6 @@ The template demonstrates every Engineering Guideline:
 - **Public root class** declared as `:global(.sd-<component>)` in the CSS module so consumers can target it for overrides.
 - **BEM modifiers** as scoped classes from the module (`__header`, `--disabled`).
 - **Semantic tokens only** — no raw palette tokens, no hard-coded values.
-- **Logical CSS properties** for RTL readiness.
 - **`aria-*` and keyboard handling** as appropriate.
 
 ## 3. Write tests
@@ -40,7 +39,7 @@ Use `import { render } from '@/utils/test-utils'` so tests are wrapped in `StudP
 
 ## 4. Write stories
 
-Stories must cover the **default** rendering plus **every variant and state**: loading, disabled, error, empty, long content, RTL. The Storybook `addon-a11y` panel must be clean for each story.
+Stories must cover the **default** rendering plus **every variant and state**: loading, disabled, error, empty, long content. The Storybook `addon-a11y` panel must be clean for each story.
 
 ## 5. Wire up exports
 
